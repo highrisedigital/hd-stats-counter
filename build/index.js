@@ -159,7 +159,7 @@ function addParagraphInspectorControls(BlockEdit) {
       setAttributes
     } = props;
 
-    // Early return if the block is not the Image block.
+    // Early return if the block is not the paragraph block.
     if (name !== 'core/paragraph') {
       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(BlockEdit, {
         ...props
@@ -180,9 +180,9 @@ function addParagraphInspectorControls(BlockEdit) {
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelRow, {
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.TextControl, {
               label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Counter Duration', 'hd-stats-counter'),
-              onChange: () => {
+              onChange: newValue => {
                 setAttributes({
-                  counterDuration: !counterDuration
+                  counterDuration: newValue
                 });
               },
               value: counterDuration

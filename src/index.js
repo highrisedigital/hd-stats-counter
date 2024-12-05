@@ -8,8 +8,8 @@ wp.blocks.registerBlockVariation( 'core/paragraph', {
     title: __( 'Stats Counter', 'hd-stats-counter' ),
     attributes: {
         makeCounter: true,
-		counterDuration: 2000,
-    },
+		counterDuration: 2000
+},
     isActive: [ 'makeCounter', 'counterDuration' ],
 } );
 
@@ -17,7 +17,7 @@ function addParagraphInspectorControls( BlockEdit ) {
 	return ( props ) => {
 		const { name, attributes, setAttributes } = props;
 
-		// Early return if the block is not the Image block.
+		// Early return if the block is not the paragraph block.
 		if ( name !== 'core/paragraph' ) {
 			return <BlockEdit { ...props } />;
 		}
@@ -42,9 +42,9 @@ function addParagraphInspectorControls( BlockEdit ) {
 								'Counter Duration',
 								'hd-stats-counter'
 							) }
-							onChange={ () => {
+							onChange={ ( newValue ) => {
 								setAttributes( {
-									counterDuration: ! counterDuration,
+									counterDuration: newValue,
 								} );
 							} }
 							value={ counterDuration }

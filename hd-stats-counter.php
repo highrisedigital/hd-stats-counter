@@ -42,7 +42,7 @@ function hd_stats_counter_plugin_check_for_updates( $transient ) {
     // Plugin information
     $plugin_slug = 'hd-stats-counter';
     $plugin_file = 'hd-stats-counter/hd-stats-counter.php'; // Adjust the path to your plugin's main file
-    $remote_url  = 'https://wp.test/hd-stats-counter-updates.json'; // URL to your JSON file
+    $remote_url  = 'https://downloads.highrise.digital/hd-stats-counter/updates.json'; // URL to your JSON file
 
     // Fetch update information
     $response = wp_remote_get( $remote_url );
@@ -52,7 +52,6 @@ function hd_stats_counter_plugin_check_for_updates( $transient ) {
         is_wp_error( $response ) ||
         wp_remote_retrieve_response_code( $response ) !== 200
     ) {
-		hd_write_log('Update check error: ' . $response->get_error_message());
         return $transient;
     }
 
@@ -69,12 +68,14 @@ function hd_stats_counter_plugin_check_for_updates( $transient ) {
             'plugin'      => $plugin_file,
             'new_version' => $update_data->new_version,
             'package'     => $update_data->package, // URL to the new plugin zip file
-            'url'         => $update_data->homepage // Optional: Link to plugin details page
+            'url'         => $update_data->homepage, // Optional: Link to plugin details page
+			'icons'       => [
+                '1x'  => HD_STATS_COUNTER_LOCATION_URL . '/assets/img/icon-128x128.png',
+                '2x'  => HD_STATS_COUNTER_LOCATION_URL . '/assets/img//icon-256x256.png',
+                'svg' => HD_STATS_COUNTER_LOCATION_URL . '/assets/img/icon.svg'
+            ]
         ];
-		hd_write_log('Update detected: ' . $update_data->new_version);
-    } else {
 
-		hd_write_log('No update available.');
 	}
 
 	// return the transient.
@@ -226,3 +227,17 @@ function hd_stats_counter_add_block_attrs( $block_content, $block, $instance ) {
 }
 
 add_filter( 'render_block_core/paragraph', 'hd_stats_counter_add_block_attrs', 10, 3 );
+
+/**
+ * Helper function for getting the contents of a pattern file.
+ *
+ * @param string $pattern The pattern file to include.
+ * @return string         The contents of the pattern file.
+ */
+function hd_stat_counter_get_pattern_content( $pattern ) {
+
+	ob_start();
+	include HD_STATS_COUNTER_LOCATION . "/patterns/{$pattern}";
+	return ob_get_clean();
+
+}
